@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solid Edge Indicator v2.0 アップデートガイド（既存ユーザー向け）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FDFAF5;--bg-warm:#FFF8F0;--bg-white:#FFFFFF;
+  --border:#F0E8E0;--border-sakura:rgba(220,140,160,0.25);
+  --text:#2E2520;--text-sub:#6B5E55;--text-dim:#A09488;
+  --sakura:#DC8CA0;--sakura-deep:#C46880;--sakura-pale:#FDE8EE;
+  --gold:#B8922E;--gold-light:#D4AA40;--gold-pale:rgba(184,146,46,0.08);--gold-border:rgba(184,146,46,0.25);
+  --teal:#2A9D8F;--teal-bg:rgba(42,157,143,0.08);--teal-border:rgba(42,157,143,0.28);
+  --blue:#3B7BB8;--blue-bg:rgba(59,123,184,0.08);--blue-border:rgba(59,123,184,0.25);
+  --shadow-sm:0 1px 4px rgba(46,37,32,0.06);--shadow-md:0 4px 16px rgba(46,37,32,0.08);
+  --font-display:'Zen Maru Gothic',sans-serif;--font-body:'Noto Sans JP',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.9;-webkit-font-smoothing:antialiased}
+.page{max-width:760px;margin:0 auto;padding:0 22px}
+.topnav{max-width:760px;margin:0 auto;padding:16px 22px 0}
+.topnav a{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--teal);text-decoration:none;font-weight:600}
+.topnav a:hover{opacity:.7}
+
+/* 表紙 */
+.cover{text-align:center;padding:60px 22px 48px;background:linear-gradient(180deg,#FFF5EE,var(--bg));border-bottom:1px solid var(--border)}
+.cover-badge{display:inline-block;padding:6px 18px;border:1px solid var(--border-sakura);border-radius:20px;font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--sakura-deep);background:var(--sakura-pale);margin-bottom:20px}
+.cover h1{font-family:var(--font-display);font-size:26px;font-weight:700;line-height:1.5;margin-bottom:12px}
+.cover h1 .v{color:var(--teal)}
+.cover .sub{font-size:14px;color:var(--text-sub);margin-bottom:6px}
+.cover .aud{display:inline-block;margin-top:16px;padding:8px 20px;background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:24px;font-size:13px;font-weight:600;color:var(--teal)}
+
+.section{padding:40px 0;border-bottom:1px solid var(--border)}
+.section:last-of-type{border-bottom:none}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.sec-num{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--sakura),var(--sakura-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:18px;font-weight:900;flex-shrink:0}
+.sec-title{font-family:var(--font-display);font-size:19px;font-weight:700;line-height:1.4}
+
+p{margin-bottom:14px;color:var(--text-sub)}
+strong{color:var(--text);font-weight:600}
+.lead{font-size:14px;color:var(--text-sub);margin-bottom:20px}
+
+/* ステップ */
+.step{background:var(--bg-white);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow-sm);display:flex;gap:14px}
+.step-n{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.step-c h4{font-family:var(--font-display);font-size:15px;margin-bottom:4px;color:var(--text)}
+.step-c p{font-size:13px;margin-bottom:0}
+.step-c code{background:var(--bg-warm);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-size:12px;color:var(--sakura-deep);font-family:monospace}
+
+/* 変更点カード */
+.change-card{border-radius:14px;padding:20px;margin-bottom:14px;border:1px solid}
+.change-before-after{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-top:12px}
+.ba-box{padding:12px 14px;border-radius:10px;font-size:12px;line-height:1.6}
+.ba-before{background:rgba(160,148,136,0.08);border:1px solid var(--border);color:var(--text-sub)}
+.ba-after{background:var(--teal-bg);border:1px solid var(--teal-border);color:var(--text)}
+.ba-arrow{font-size:20px;color:var(--sakura)}
+.ba-label{font-size:10px;font-weight:700;letter-spacing:.05em;display:block;margin-bottom:4px}
+.ba-before .ba-label{color:var(--text-dim)}
+.ba-after .ba-label{color:var(--teal)}
+
+/* モード比較表 */
+.mode-table{width:100%;border-collapse:collapse;margin:16px 0;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);font-size:13px}
+.mode-table th{padding:12px;font-size:12px;font-weight:600;text-align:left}
+.mode-table th.strict{background:var(--gold-pale);color:var(--gold)}
+.mode-table th.free{background:var(--teal-bg);color:var(--teal)}
+.mode-table th:first-child{background:var(--bg-warm);color:var(--text-dim)}
+.mode-table td{padding:11px 12px;border-top:1px solid var(--border);color:var(--text-sub);background:var(--bg-white)}
+.mode-table td:first-child{font-weight:600;color:var(--text);background:var(--bg-warm)}
+
+/* ハイライトボックス */
+.box{border-radius:12px;padding:16px 18px;margin:14px 0;font-size:13px;line-height:1.8}
+.box-teal{background:var(--teal-bg);border:1px solid var(--teal-border)}
+.box-gold{background:var(--gold-pale);border:1px solid var(--gold-border)}
+.box-sakura{background:var(--sakura-pale);border:1px solid var(--border-sakura)}
+.box-blue{background:var(--blue-bg);border:1px solid var(--blue-border)}
+.box-title{font-family:var(--font-display);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.box-teal .box-title{color:var(--teal)}
+.box-gold .box-title{color:var(--gold)}
+.box-sakura .box-title{color:var(--sakura-deep)}
+.box-blue .box-title{color:var(--blue)}
+
+/* テーブル情報 */
+.info-preview{background:#1E1E1E;border-radius:10px;padding:4px 0;margin:14px 0;max-width:280px}
+.info-preview .row{display:flex;justify-content:space-between;padding:6px 16px;border-bottom:1px solid #2a2a2a;font-size:12px}
+.info-preview .row:last-child{border-bottom:none}
+.info-preview .k{color:#999}
+.info-preview .v{font-weight:600}
+
+ul.clean{list-style:none;margin:12px 0}
+ul.clean li{position:relative;padding-left:22px;margin-bottom:8px;font-size:13px;color:var(--text-sub)}
+ul.clean li::before{content:'🌸';position:absolute;left:0;font-size:11px}
+
+.footer{text-align:center;padding:32px 22px;background:var(--bg-warm);border-top:1px solid var(--border)}
+.footer .brand{font-family:var(--font-display);font-size:14px;color:var(--text-dim);margin-bottom:8px}
+.footer p{font-size:10px;color:var(--text-dim);margin-bottom:4px}
+
+@media print{.section{page-break-inside:avoid}}
+
+/* モック図解 */
+.mock{margin:14px 0;border-radius:12px;overflow:hidden}
+.mock-label{font-size:11px;color:var(--text-dim);margin-bottom:8px;font-weight:600}
+.mock-caption{font-size:11px;color:var(--text-dim);margin-top:8px;text-align:center;font-style:italic}
+.mock-chart{background:#131722;border:1px solid #2a2e39;border-radius:12px;padding:16px}
+.mock-chart .mock-label{color:#787b86}
+.mock-indicator{display:inline-flex;align-items:center;gap:8px;background:#1e222d;border:1px solid #2a2e39;border-radius:6px;padding:7px 12px}
+.mock-eye{font-size:13px;opacity:.7}
+.mock-name{color:#d1d4dc;font-size:13px;font-weight:500}
+.mock-badge{background:#2962ff;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.mock-chart .mock-caption{color:#787b86}
+.mock-menu{background:#1e222d;border:1px solid #2a2e39;border-radius:12px;padding:16px}
+.mock-menu .mock-label{color:#787b86}
+.mock-menu-item{color:#d1d4dc;font-size:13px;padding:9px 12px;border-radius:6px;margin-bottom:4px}
+.mock-menu-item.mock-highlight{background:#2962ff;color:#fff;font-weight:600}
+.mock-setting{background:#1e222d;border:1px solid #2a2e39;border-radius:12px;padding:16px}
+.mock-setting .mock-label{color:#787b86}
+.mock-field{margin-bottom:12px}
+.mock-field:last-child{margin-bottom:0}
+.mock-field-label{color:#d1d4dc;font-size:12px;margin-bottom:5px}
+.mock-select{background:#131722;border:1px solid #363a45;border-radius:6px;padding:8px 12px;color:#fff;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+.mock-select .arrow{color:#787b86}
+.mock-select.active{border-color:#2962ff}
+</style>
+</head>
+<body>
+
+<div class="topnav"><a href="index.html">← マニュアル一覧に戻る</a></div>
+
+<div class="cover">
+  <div class="cover-badge">UPDATE GUIDE</div>
+  <h1>Solid Edge Indicator <span class="v">v2.0</span><br>アップデートガイド</h1>
+  <div class="sub">ゾーン反発型サイン ＆ フィルターモードの追加</div>
+  <div class="aud">すでにご利用中の方向け</div>
+</div>
+
+<div class="page">
+
+<!-- はじめに -->
+<section class="section">
+  <p class="lead">いつもSolid Edge Indicatorをご利用いただきありがとうございます。今回のv2.0アップデートでは、みやびEA・みおEAと<strong>同じロジックの「ゾーン反発型サイン」</strong>を新たに追加しました。このガイドでは、更新方法と変更点、新しい使い方をご案内します。</p>
+  <div class="box box-sakura">
+    <div class="box-title">🌸 まず知っておいてほしいこと</div>
+    今回のアップデートで、<strong>これまでのEMAクロス型サインもそのまま使えます</strong>。設定で「シグナル種類」を切り替えるだけなので、慣れた使い方を変える必要はありません。新しいゾーン反発型を試したい時だけ切り替えてください。
+  </div>
+</section>
+
+<!-- 更新方法 -->
+<section class="section">
+  <div class="sec-head"><div class="sec-num">1</div><div class="sec-title">インジケーターの更新方法</div></div>
+  <p class="lead">すでに招待専用インジケーターを登録済みの方は、<strong>更新マークをクリックするだけ</strong>で最新版になります。コードを貼り替える必要はありません。</p>
+
+  <div class="step"><div class="step-n">1</div><div class="step-c"><h4>チャート左上のインジケーター名を確認</h4><p>チャートを開くと、左上に登録済みのインジケーター名が並んでいます。更新がある場合、名前の右に<strong>「!」マーク（更新アイコン）</strong>が表示されます。</p>
+
+  <!-- 図解: インジ名と!マーク -->
+  <div class="mock mock-chart">
+    <div class="mock-label">▼ チャート左上の表示</div>
+    <div class="mock-indicator">
+      <span class="mock-eye">👁</span>
+      <span class="mock-name">Solid Edge Indicator</span>
+      <span class="mock-badge">! 更新</span>
+    </div>
+    <div class="mock-caption">名前の右に「!」が出ていたら更新のサインです</div>
+  </div>
+  </div></div>
+
+  <div class="step"><div class="step-n">2</div><div class="step-c"><h4>更新マークをクリック</h4><p>「!」マーク（または「更新」の表示）をクリックすると、最新バージョンに更新するか確認が出ます。</p>
+
+  <div class="mock mock-menu">
+    <div class="mock-label">▼ クリックすると表示されるメニュー</div>
+    <div class="mock-menu-item mock-highlight">🔄　最新バージョンに更新</div>
+    <div class="mock-menu-item">ⓘ　このスクリプトについて</div>
+    <div class="mock-menu-item">✕　削除</div>
+  </div>
+  </div></div>
+
+  <div class="step"><div class="step-n">3</div><div class="step-c"><h4>更新を実行して完了</h4><p>「最新バージョンに更新」を選べば、自動的にv2.0が反映されます。チャート上に新しいゾーン反発サインや情報テーブルが表示されれば成功です。</p></div></div>
+
+  <div class="box box-gold">
+    <div class="box-title">💡 更新マークが出ない場合</div>
+    すでに最新版になっているか、TradingViewの反映に少し時間がかかっている可能性があります。チャートを再読み込み（ページ更新）してから、もう一度インジケーター名を確認してみてください。それでも出ない場合はLINEでお知らせください。
+  </div>
+</section>
+
+<!-- 何が変わったか -->
+<section class="section">
+  <div class="sec-head"><div class="sec-num">2</div><div class="sec-title">何が変わったのか</div></div>
+
+  <div class="change-card" style="background:var(--teal-bg);border-color:var(--teal-border)">
+    <h4 style="font-family:var(--font-display);color:var(--teal);font-size:16px;margin-bottom:6px">① ゾーン反発型サインを新設</h4>
+    <p style="font-size:13px;margin-bottom:0">これまでは「EMAのクロス」を主なきっかけにサインを出していました。新しいゾーン反発型は、<strong>サポート・レジスタンスゾーンでの反発（ピンバー・包み足）</strong>を主なきっかけにします。みやびEA・みおEAと全く同じ考え方です。</p>
+    <div class="change-before-after">
+      <div class="ba-box ba-before"><span class="ba-label">これまで（EMAクロス型）</span>EMAがクロスしたらサイン。トレンドには強いが、レンジでダマシが多め。</div>
+      <div class="ba-arrow">→</div>
+      <div class="ba-box ba-after"><span class="ba-label">新（ゾーン反発型）</span>ゾーンで反発したらサイン。「どこで入るか」の根拠が明確。</div>
+    </div>
+  </div>
+
+  <div class="change-card" style="background:var(--gold-pale);border-color:var(--gold-border)">
+    <h4 style="font-family:var(--font-display);color:var(--gold);font-size:16px;margin-bottom:6px">② フィルターモードを新設</h4>
+    <p style="font-size:13px;margin-bottom:0">ゾーン反発型には<strong>「厳格」と「裁量」の2つのモード</strong>があります。EAと同じ厳しい条件でサインを出すか、条件を緩めてチャンスを多く見せるかを選べます。</p>
+  </div>
+
+  <div class="change-card" style="background:var(--blue-bg);border-color:var(--blue-border)">
+    <h4 style="font-family:var(--font-display);color:var(--blue);font-size:16px;margin-bottom:6px">③ 情報テーブルが充実</h4>
+    <p style="font-size:13px;margin-bottom:0">チャート右上のテーブルに<strong>「モード」「判定」「反発」</strong>の行が追加され、今どんな状況かが一目で分かるようになりました。</p>
+  </div>
+</section>
+
+<!-- フィルターモードの使い分け -->
+<section class="section">
+  <div class="sec-head"><div class="sec-num">3</div><div class="sec-title">2つのフィルターモードの使い分け</div></div>
+  <p class="lead">これが今回の一番大事なポイントです。設定の「フィルターモード」で切り替えます。</p>
+
+  <div class="mock mock-setting">
+    <div class="mock-label">▼ インジケーター設定画面（歯車アイコンから開く）</div>
+    <div class="mock-field">
+      <div class="mock-field-label">シグナル種類</div>
+      <div class="mock-select"><span>ゾーン反発型</span><span class="arrow">▼</span></div>
+    </div>
+    <div class="mock-field">
+      <div class="mock-field-label">フィルターモード</div>
+      <div class="mock-select active"><span>裁量（サイン多め）</span><span class="arrow">▼</span></div>
+    </div>
+    <div class="mock-caption">この2つで、サインの種類と出方を切り替えます</div>
+  </div>
+
+  <table class="mode-table">
+    <tr><th>項目</th><th class="strict">厳格（EA準拠）</th><th class="free">裁量（サイン多め）</th></tr>
+    <tr><td>サインの条件</td><td>ゾーン＋反発＋上位足＋ADX＋EMA<br>（全部必須）</td><td>ゾーン＋反発<br>（2つだけ）</td></tr>
+    <tr><td>サインの数</td><td>少ない（厳選）</td><td>多い</td></tr>
+    <tr><td>EAとの一致</td><td>完全に同じ</td><td>EAより多く出る</td></tr>
+    <tr><td>フィルター情報</td><td>条件として使う</td><td>テーブルに表示のみ</td></tr>
+    <tr><td>向いている人</td><td>EAの動きを確認したい人<br>厳選サインだけ欲しい人</td><td>自分で判断したい人<br>チャンスを多く見たい人</td></tr>
+  </table>
+
+  <div class="box box-teal">
+    <div class="box-title">💡 裁量モードの考え方</div>
+    裁量モードでは、上位足・ADX・EMAの状況は<strong>「サインを消す条件」ではなく「参考情報」</strong>になります。例えば上位足が下降中でもサポートで反発サインが出ます。そのサインを取るかどうかは、テーブルの情報（上位足・ADX）を見て<strong>あなた自身が判断</strong>します。これが裁量トレードの自由度です。
+  </div>
+
+  <div class="box box-gold">
+    <div class="box-title">📌 レンジ相場こそチャンス</div>
+    厳格モード（EA）はADXが弱いレンジ相場を避けますが、<strong>実はゾーン反発はレンジ相場で最もよく効きます</strong>。裁量モードならレンジのゾーン反発も拾えるので、EAが見送る場面のチャンスを取りにいけます。
+  </div>
+</section>
+
+<!-- サインの見方 -->
+<section class="section">
+  <div class="sec-head"><div class="sec-num">4</div><div class="sec-title">サインの見方</div></div>
+
+  <ul class="clean">
+    <li><strong>◆ BUY（ティール色）</strong>：サポートゾーンで買い反発。ゾーン反発型のサインです。</li>
+    <li><strong>◆ SELL（ピンク色）</strong>：レジスタンスゾーンで売り反落。ゾーン反発型のサインです。</li>
+    <li><strong>BUY / SELL（通常）</strong>：EMAクロス型のサイン（従来通り）。</li>
+    <li><strong>★ BUY / ★ SELL</strong>：EMAクロス型で、かつゾーン付近の強いサイン（従来通り）。</li>
+  </ul>
+
+  <!-- チャート図解 -->
+  <div class="mock mock-chart">
+    <div class="mock-label">▼ ゾーン反発型サインの表示イメージ</div>
+    <svg viewBox="0 0 480 220" style="width:100%;height:auto;display:block">
+      <rect x="0" y="30" width="480" height="26" fill="#FF9800" opacity="0.12"/>
+      <text x="8" y="24" fill="#FF9800" font-size="9" opacity="0.7">レジスタンスゾーン</text>
+      <rect x="0" y="160" width="480" height="26" fill="#2196F3" opacity="0.12"/>
+      <text x="8" y="155" fill="#2196F3" font-size="9" opacity="0.7">サポートゾーン</text>
+      <path d="M20 170 Q60 165,90 150 Q120 130,150 100 Q180 70,210 50 Q240 40,260 60 Q280 90,310 130 Q340 165,370 172 Q400 175,430 155" fill="none" stroke="#787b86" stroke-width="1.5"/>
+      <rect x="228" y="18" width="52" height="20" rx="4" fill="#E91E63"/>
+      <text x="254" y="32" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">◆ SELL</text>
+      <rect x="60" y="178" width="50" height="20" rx="4" fill="#00BFA5"/>
+      <text x="85" y="192" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">◆ BUY</text>
+      <rect x="345" y="180" width="50" height="20" rx="4" fill="#00BFA5"/>
+      <text x="370" y="194" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">◆ BUY</text>
+      <line x1="370" y1="80" x2="450" y2="80" stroke="#00E676" stroke-width="1" stroke-dasharray="4 3" opacity="0.7"/>
+      <text x="452" y="83" fill="#00E676" font-size="8">TP</text>
+      <line x1="370" y1="192" x2="450" y2="192" stroke="#FF1744" stroke-width="1" stroke-dasharray="4 3" opacity="0.7"/>
+      <text x="452" y="195" fill="#FF1744" font-size="8">SL</text>
+    </svg>
+    <div class="mock-caption">ゾーンでの反発時にサインが出て、SL・TPラインが自動表示されます</div>
+  </div>
+
+  <p style="margin-top:16px">サインは<strong>ドル円・ゴールド・ビットコイン</strong>のどれでも出ます。推奨の時間足は、ドル円＝5分足、ゴールド＝1分足、ビットコイン＝5分足です。上位足フィルターの設定は、ドル円だけ「30」、ゴールドとビットコインは「15」のままにしてください。</p>
+
+  <div class="box box-blue">
+    <div class="box-title">🔔 サインはDiscordにも届きます</div>
+    サインが出たタイミングは、コミュニティの<strong>Discordチャンネルにも自動で通知</strong>されています。チャートを常に見ていなくても、Discordの通知でサインの発生に気づけます。
+  </div>
+
+  <p>チャートには自動で<strong>SL（損切り）とTP（利確）のライン</strong>が表示されます。SLはATR×1.5、TPはATR×3.5が目安です。エントリー後の目標が一目で分かります。</p>
+
+  <div class="box box-teal">
+    <div class="box-title">📊 情報テーブルの読み方</div>
+    <div class="info-preview">
+      <div class="row"><span class="k">モード</span><span class="v" style="color:#00BFA5">◆ ゾーン反発</span></div>
+      <div class="row"><span class="k">判定</span><span class="v" style="color:#00BFA5">裁量(多め)</span></div>
+      <div class="row"><span class="k">上位足</span><span class="v" style="color:#00E676">↑ 上昇</span></div>
+      <div class="row"><span class="k">ADX</span><span class="v" style="color:#00E676">28.4 トレンド</span></div>
+      <div class="row"><span class="k">ゾーン</span><span class="v" style="color:#2196F3">サポート付近</span></div>
+      <div class="row"><span class="k">反発</span><span class="v" style="color:#00BFA5">↑ 買い反発</span></div>
+    </div>
+    「ゾーン：サポート付近」＋「反発：↑買い反発」が揃うと ◆BUY が出ます。裁量モードなら、上位足やADXが揃っていなくてもサインが出るので、これらを見て最終判断してください。
+  </div>
+</section>
+
+<!-- 推奨の使い方 -->
+<section class="section">
+  <div class="sec-head"><div class="sec-num">5</div><div class="sec-title">おすすめの使い方・考え方</div></div>
+
+  <p>今回のアップデートで、インジは<strong>「EAで自動化する前の練習台」</strong>としても、<strong>「EAより多くのチャンスを裁量で取る道具」</strong>としても使えるようになりました。</p>
+
+  <ul class="clean">
+    <li><strong>まずは厳格モードで慣れる</strong>：EAと同じサインが出るので、「EAがどこで入るか」を目で見て理解できます。</li>
+    <li><strong>慣れたら裁量モードへ</strong>：チャンスが増えるので、テーブル情報を見ながら自分で取捨選択する練習をします。</li>
+    <li><strong>少額×高ロットで種銭作り</strong>：ゾーン反発サインで精度を上げつつ、短期の利益を積み上げます。</li>
+    <li><strong>増えた資金はEAへ</strong>：裁量で作った資金をみやびEAに回し、その利益をみおEAで守る。この流れが資産構築の基本です。</li>
+  </ul>
+
+  <div class="box box-sakura">
+    <div class="box-title">🌸 大切な心構え</div>
+    ゾーン反発型は<strong>「勝率」よりも「損小利大」を狙うロジック</strong>です。勝率は40〜55%程度でも、1回の勝ちが複数回の負けを上回る設計になっています。サインが出ても<strong>必ず勝てるわけではありません</strong>。SLラインを必ず守り、1回の負けを小さく抑えることが何より大切です。
+  </div>
+</section>
+
+</div>
+
+<div class="footer">
+  <div class="brand">mio億トレ × Solid Edge Indicator</div>
+  <p>※本ツールは投資助言・代理業に該当するものではありません。</p>
+  <p>※FX取引にはリスクが伴います。投資は自己責任でお願いいたします。</p>
+</div>
+
+</body>
+</html>

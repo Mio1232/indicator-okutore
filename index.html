@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solid Edge Indicator マニュアル</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FDFAF5;--bg-warm:#FFF8F0;--bg-white:#FFFFFF;
+  --border:#F0E8E0;--border-sakura:rgba(220,140,160,0.25);
+  --text:#2E2520;--text-sub:#6B5E55;--text-dim:#A09488;
+  --sakura:#DC8CA0;--sakura-deep:#C46880;--sakura-pale:#FDE8EE;
+  --gold:#B8922E;--gold-light:#D4AA40;--gold-pale:rgba(184,146,46,0.08);--gold-border:rgba(184,146,46,0.25);
+  --teal:#2A9D8F;--teal-bg:rgba(42,157,143,0.08);--teal-border:rgba(42,157,143,0.28);
+  --shadow-sm:0 1px 4px rgba(46,37,32,0.06);--shadow-md:0 6px 22px rgba(46,37,32,0.09);
+  --font-display:'Zen Maru Gothic',sans-serif;--font-body:'Noto Sans JP',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.85;-webkit-font-smoothing:antialiased;min-height:100vh}
+.sakura-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.petal{position:absolute;width:8px;height:8px;background:#F5C0CC;border-radius:50% 0 50% 0;opacity:.13;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-20px) rotate(0);opacity:0}10%{opacity:.13}90%{opacity:.06}100%{transform:translateY(100vh) rotate(360deg);opacity:0}}
+
+.wrap{max-width:640px;margin:0 auto;padding:0 22px;position:relative;z-index:1}
+.hero{text-align:center;padding:72px 0 40px}
+.hero-badge{display:inline-block;padding:6px 18px;border:1px solid var(--border-sakura);border-radius:20px;font-size:11px;font-weight:500;letter-spacing:.12em;color:var(--sakura-deep);background:var(--sakura-pale);margin-bottom:22px}
+.hero h1{font-family:var(--font-display);font-size:28px;font-weight:700;line-height:1.5;margin-bottom:14px}
+.hero p{font-size:14px;color:var(--text-sub)}
+
+.cards{display:flex;flex-direction:column;gap:18px;padding-bottom:40px}
+.card{display:block;text-decoration:none;color:inherit;background:var(--bg-white);border:1px solid var(--border);border-radius:20px;padding:28px 26px;box-shadow:var(--shadow-sm);transition:transform .25s ease,box-shadow .25s ease;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;width:5px;height:100%}
+.card.c-new::before{background:linear-gradient(180deg,var(--sakura),var(--sakura-deep))}
+.card.c-existing::before{background:linear-gradient(180deg,#3CB5A6,var(--teal))}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.card-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;padding:4px 12px;border-radius:14px;margin-bottom:14px}
+.card.c-new .card-tag{background:var(--sakura-pale);color:var(--sakura-deep)}
+.card.c-existing .card-tag{background:var(--teal-bg);color:var(--teal)}
+.card h2{font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.card p{font-size:13px;color:var(--text-sub);line-height:1.8;margin-bottom:16px}
+.card-arrow{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600}
+.card.c-new .card-arrow{color:var(--sakura-deep)}
+.card.c-existing .card-arrow{color:var(--teal)}
+.card-arrow .a{transition:transform .25s ease}
+.card:hover .card-arrow .a{transform:translateX(4px)}
+
+.footer{text-align:center;padding:36px 22px 48px;position:relative;z-index:1}
+.footer .brand{font-family:var(--font-display);font-size:13px;color:var(--text-dim);margin-bottom:8px}
+.footer p{font-size:10px;color:var(--text-dim);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="sakura-bg" id="sakuraBg"></div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-badge">MANUAL</div>
+    <h1>Solid Edge Indicator<br>マニュアル</h1>
+    <p>ご利用状況に合わせて、お選びください。</p>
+  </div>
+
+  <div class="cards">
+    <a class="card c-new" href="new.html">
+      <span class="card-tag">はじめての方</span>
+      <h2>🌸 スタートガイド</h2>
+      <p>これから使い始める方向け。TradingView IDの登録から、インジケーターの追加、サインの見方、トレードの流れまでをやさしく解説します。</p>
+      <span class="card-arrow">ガイドを見る <span class="a">→</span></span>
+    </a>
+
+    <a class="card c-existing" href="existing.html">
+      <span class="card-tag">ご利用中の方</span>
+      <h2>🔄 アップデートガイド</h2>
+      <p>すでにご利用中の方向け。v2.0への更新方法、ゾーン反発型サインとフィルターモードの新機能、新しい使い方を解説します。</p>
+      <span class="card-arrow">ガイドを見る <span class="a">→</span></span>
+    </a>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="brand">mio億トレ × Solid Edge Indicator</div>
+  <p>※本ツールは投資助言・代理業に該当するものではありません。<br>※FX取引にはリスクが伴います。投資は自己責任でお願いいたします。</p>
+</div>
+
+<script>
+(function(){const bg=document.getElementById('sakuraBg');for(let i=0;i<14;i++){const p=document.createElement('div');p.className='petal';p.style.left=Math.random()*100+'%';p.style.animationDuration=(8+Math.random()*12)+'s';p.style.animationDelay=Math.random()*10+'s';p.style.width=p.style.height=(5+Math.random()*6)+'px';bg.appendChild(p)}})();
+</script>
+</body>
+</html>
